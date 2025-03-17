@@ -1,0 +1,43 @@
+---
+title: "Što je stablo života?"
+format: 
+  html:
+    self-contained: true
+editor: visual
+---
+
+Prije jako, jako puno vremena, prije otprilike četiri milijarde godina, živio je jedan zajednički predak svih živih bića. Iz tog pretka razvili su se svi -- biljke, životinje, gljive, bakterije i mi!
+
+Taj zajednički predak zvao se **LUCA** (engl. *Last Universal Common Ancestor*). LUCA je bio vrlo jednostavan organizam, sličniji bakterijama i arhejama. Imao je osnovni genetski materijal (DNA ili RNA), koji mu je omogućio da se razmnožava i mijenja.
+
+Kako se LUCA razmnožavao, njegovi potomci su se postupno mijenjali kroz jako dugo vrijeme. Tako su nastale različite vrste koje danas poznajemo - od guštera do mačaka, pa i ljudi!
+
+**Stablo života** prikazuje tu evoluciju. Naš zajednički predak je u korijenu stabla, a svi organizmi su kao grane koje rastu iz tog korijena.
+
+Znanost koja proučava stabla života i povezanost među vrstama zove se **filogenetika**.
+
+![](DiN_stablo.png)
+
+# Kako napraviti stablo života?
+
+## Parsimonija na temelju morfologije
+
+Ako imamo nekoliko organizama, možemo nacrtati jako puno različitih stabala s njima. Kako znamo koje je ispravno?
+
+Kad proučavamo filogeniju, postoji nešto što se zove **štedljivost** (engl. *parsimony*). Obično pretpostavimo da je ispravno stablo ono koje je nastalo iz najmanjeg broja **evolucijskih događaja**. Za njega kažemo da ima **maksimalnu štedljivost**. Kao što u štednji novca želimo smanjiti iznos kojeg trošimo, tako ovdje želimo uštediti na broju evolucijskih događaja.
+
+Primjer evolucijskog događaja je nastanak krila. Recimo da stablo sadrži nekoliko životinja, među kojima dvije imaju krila: sova i vrabac. Zanima nas jesu li krila u prošlosti nastala jednom ili dvaput. Ako su nastala dvaput, to je možda prvi put bilo u ptici koja je predak samo sove, a drugi put u ptici koja je predak samo vrapca. To nije nemoguće, ali je „štedljivija" (i jednostavnija) opcija da su krila nastala samo jednom, u zajedničkom pretku sove i vrapca.
+
+## Poravnavanje DNA i UPGMA
+
+Za izgradnju još točnijih stabala, znanstvenici umjesto vanjskih obilježja, kao što su krila, kandže, dlaka i peraje, koriste DNA. DNA ima svoj kod, kojeg možemo zapisati slovima A, C, G i T. Primjer DNA koda je „ATCGGC...". Sljedove ovih slova možemo uspoređivati pomoću **poravnavanja**.
+
+U poravnavanju želimo namjestiti dva slijeda jedan ispod drugog tako da nam je lako uočiti sličnosti između njih. Ako smo uspjeli staviti slična slova jedno ispod drugog, dobivamo bodove. Ako nismo to uspjeli, gubimo bodove. Kad je DNA dva organizma slična, tj. imamo puno bodova, to upućuje na njihovu **srodnost**.
+
+Jedna metoda crtanja stabala zove se **UPGMA** (kratica za engl. *Unweighted Pair Group Method With Arithmetic Mean*). Možda zvuči komplicirano, ali zapravo nije. Postupak je sljedeći:
+
+1.  Pomoću poravnavanja odredimo dvije vrste s najsličnijim DNA sljedovima. To su one koje u međusobnom poravnavanju steknu najviše bodova.
+2.  Te dvije vrste stavimo u jednu grupu.
+3.  Među preostalim sekvencama odaberemo onu koja je najsličnija prethodnim sekvencama (i jednoj i drugoj zajedno).
+4.  Sad sve tri sekvence čine jednu grupu na stablu, a prve dvije jednu podgrupu unutar te grupe.
+5.  Nastavimo postupak s drugim sekvencama.

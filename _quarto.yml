@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: docs
+website:
+  title: "DAN i NOĆ BIOLOGIJE 2025. Koliko brzo nas vrijeme može razdvojiti?"
+  navbar:
+    logo: Noc_logo.png
+    right:
+      - text: UVOD
+        href: 01_Uvod_DiN.qmd
+      - text: IZRADA STABALA
+        menu: 
+          - text: MORFOLOŠKO
+            href: 02_MetodaMorfo_DiN.qmd
+          - text: FILOGENETSKO
+            href: 02_MetodaGen_DiN.qmd
+      - text: GALERIJA
+        href: 03_Galerija_DiN.qmd
+      - text: O NAMA
+        href: 04_O_nama_DiN.qmd
+
+  page-footer:
+    background: light
+    left: "Copyright 2024, Bioinformatics Group"
+    right: "This website is built with Quarto."
+format:
+  html:
+    theme: styles.scss
+    mainfont: Nunito
+    toc: true
+    page-layout: full
+editor: visual
