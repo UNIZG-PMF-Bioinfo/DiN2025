@@ -1,0 +1,16 @@
+---
+title: "Slike s radionice"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+::: {.image-announcement}
+📢 **Slike će biti dostupne nakon 16. svibnja 2025.!**  
+
+📸 **Stay tuned!**  
+:::
