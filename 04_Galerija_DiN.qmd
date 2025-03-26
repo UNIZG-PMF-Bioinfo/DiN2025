@@ -9,8 +9,8 @@ execute:
   message: false
 ---
 
-::: {.image-announcement}
-📢 **Slike će biti dostupne nakon 16. svibnja 2025.!**  
+::: image-announcement
+📢 **Slike će biti dostupne nakon 16. svibnja 2025.!**
 
-📸 **Stay tuned!**  
+📸 **Stay tuned!**
 :::
