@@ -14,10 +14,12 @@ website:
             href: 02_MetodaMorfo_DiN.qmd
           - text: FILOGENETSKO
             href: 02_MetodaGen_DiN.qmd
+      - text: MAČJA TRKA
+        href: 03_MacjaTrka_DiN.qmd
       - text: GALERIJA
-        href: 03_Galerija_DiN.qmd
+        href: 04_Galerija_DiN.qmd
       - text: O NAMA
-        href: 04_O_nama_DiN.qmd
+        href: 05_O_nama_DiN.qmd
 
   page-footer:
     background: light
