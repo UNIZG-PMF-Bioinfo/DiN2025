@@ -4,19 +4,20 @@ format:
   html:
     self-contained: true
 editor: visual
+bibliography: references.bib
 ---
 
 Prije jako, jako puno vremena, prije otprilike četiri milijarde godina, živio je jedan zajednički predak svih živih bića. Iz tog pretka razvili su se svi -- biljke, životinje, gljive, bakterije i mi!
 
-Taj zajednički predak zvao se **LUCA** (engl. *Last Universal Common Ancestor*). LUCA je bio vrlo jednostavan organizam, sličniji bakterijama i arhejama. Imao je osnovni genetski materijal (DNA ili RNA), koji mu je omogućio da se razmnožava i mijenja.
+Taj zajednički predak zvao se **LUCA** (engl. *Last Universal Common Ancestor*). LUCA je bio vrlo jednostavan organizam, sličniji bakterijama i arhejama. Imao je osnovni genetski materijal (DNA ili RNA), koji mu je omogućio da se razmnožava i mijenja[@Krupovic2020].
 
 Kako se LUCA razmnožavao, njegovi potomci su se postupno mijenjali kroz jako dugo vrijeme. Tako su nastale različite vrste koje danas poznajemo - od guštera do mačaka, pa i ljudi!
 
-**Stablo života** prikazuje tu evoluciju. Naš zajednički predak je u korijenu stabla, a svi organizmi su kao grane koje rastu iz tog korijena.
+**Stablo života** prikazuje tu evoluciju. Naš zajednički predak nalazi se u korijenu stabla, a svi organizmi nalaze se na vrhovima ogranaka -- listovima -- koji iz njega izrastaju.
 
 Znanost koja proučava stabla života i povezanost među vrstama zove se **filogenetika**.
 
-![](DiN_stablo.png)
+![Slika 1. Shematski prikaz stabla života](DiN_stablo.png)
 
 # Kako napraviti stablo života?
 
@@ -30,9 +31,9 @@ Primjer evolucijskog događaja je nastanak krila. Recimo da stablo sadrži nekol
 
 ## Poravnavanje DNA i UPGMA
 
-Za izgradnju još točnijih stabala, znanstvenici umjesto vanjskih obilježja, kao što su krila, kandže, dlaka i peraje, koriste DNA. DNA ima svoj kod, kojeg možemo zapisati slovima A, C, G i T. Primjer DNA koda je „ATCGGC...". Sljedove ovih slova možemo uspoređivati pomoću **poravnavanja**.
+Za izgradnju još točnijih stabala, znanstvenici umjesto vanjskih obilježja, kao što su krila, kandže, dlaka i peraje, koriste **deoksiribonukleinska kiselina (engl. *deoxyribonucleic acid*, DNA)**, molekulu koja nosi nasljedne informacije svih živih bića. DNA ima svoj kod, kojeg možemo zapisati slovima A, C, G i T. Primjer DNA koda je „ATCGGC...". Sljedove ovih slova možemo uspoređivati pomoću **poravnavanja**.
 
-U poravnavanju želimo namjestiti dva slijeda jedan ispod drugog tako da nam je lako uočiti sličnosti između njih. Ako smo uspjeli staviti slična slova jedno ispod drugog, dobivamo bodove. Ako nismo to uspjeli, gubimo bodove. Kad je DNA dva organizma slična, tj. imamo puno bodova, to upućuje na njihovu **srodnost**.
+U poravnavanju želimo namjestiti dva slijeda jedan ispod drugog tako da nam je lako uočiti sličnosti između njih. Ako smo uspjeli staviti ista slova jedno ispod drugog, dobivamo bodove. Ako nismo to uspjeli, gubimo bodove. Kad je DNA dva organizma slična, tj. imamo puno bodova, to upućuje na njihovu **srodnost**.
 
 Jedna metoda crtanja stabala zove se **UPGMA** (kratica za engl. *Unweighted Pair Group Method With Arithmetic Mean*). Možda zvuči komplicirano, ali zapravo nije. Postupak je sljedeći:
 

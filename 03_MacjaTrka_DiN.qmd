@@ -1,0 +1,273 @@
+---
+title: "Mačja trka"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(BiocManager)
+library(msa)
+library(ape)
+library(seqinr)
+library(phangorn)
+library(Biostrings)
+library(ggtree)
+```
+
+Mačke postoje već više od 10 milijuna godina! Prve mačke nalikovale su na pantere i pojavile su se u jugoistočnoj Aziji (rod *Neofelis*). Mačke iz roda *Panthera* (lav, jaguar, tigar...) su se odvojile od prvih mačaka prije oko 4 milijuna godina, a prvi predak današnjih domaćih mačaka pojavio se tek prije 3.4 milijuna godina (rod *Felis*).
+
+No, nas samo zanimaju lav, tigar, gepard, domaća mačka, ris i leopard. Napravljeno je filogenetsko stablo s proteinima mitohondrijske citokrom c oksidaze.
+
+# PAULA STABLO S EMOJIMA
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: COI stablo
+#Ucitavanje sekvence
+SequenceFile <- list.files(pattern = "COI-macke.fasta", recursive = T, full.names = TRUE)
+
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences) ))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+
+#Stablo
+mt <- modelTest(AlignedSequences, model="WAG",
+                control = pml.control(trace = 0))
+# Run pml_bb() but capture and discard the output
+invisible(capture.output(
+  fit <- pml_bb(mt, model="WAG")
+))
+
+# Prilagođeni nazivi s emojijima
+fit$tree$tip.label <- c(
+  "🦊 RIS",        # RIS
+  "🐱 DOMACA MACKA",   # DOMACA MACKA
+  "🐯 TIGAR",       # TIGAR
+  "🐆 LEOPARD",     # LEOPARD
+  "🦁 LAV",        # LAV
+  "🐾 GEPARD"      # GEPARD
+)
+
+# Dodaj boje za svaku vrstu (redoslijed isti kao gore)
+tip_colors <- c("orange", "gray40", "firebrick", "darkgreen", "goldenrod", "purple")
+
+# Iscrtavanje stabla s bojama i nazivima
+plot.phylo(midpoint(fit$tree), tip.color = tip_colors, cex = 1.2, font = 2)
+```
+# PAULA STABLO S EMOJIMA
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: COI stablo slike
+#Ucitavanje sekvence
+SequenceFile <- list.files(pattern = "COI-macke.fasta", recursive = T, full.names = TRUE)
+
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences) ))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+
+#Stablo
+mt <- modelTest(AlignedSequences, model="WAG",
+                control = pml.control(trace = 0))
+# Run pml_bb() but capture and discard the output
+invisible(capture.output(
+  fit <- pml_bb(mt, model="WAG")
+))
+
+tree <- midpoint(fit$tree)
+# Prilagođeni nazivi s emojijima
+images <- c(
+  "./03_maca_trka/stabala/lynx.png",       # RIS
+  "./03_maca_trka/stabala/cat.png",        # DOMACA MACKA
+  "./03_maca_trka/stabala/tiger.png",      # TIGAR
+  "./03_maca_trka/stabala/leopard.png",    # LEOPARD
+  "./03_maca_trka/stabala/lion.png",       # LAV
+  "./03_maca_trka/stabala/cheetah.png"     # GEPARD
+)
+
+# Add image paths as a data frame
+tree_data <- data.frame(label = tree$tip.label, image = images)
+
+# Iscrtavanje stabla s bojama i nazivima
+p <- ggtree(tree) %<+% tree_data +
+  geom_tiplab(aes(image = image), geom = "image", size = 0.12, offset = 0.002) +
+  geom_tiplab(hjust = -0.1, size = 4) +
+  xlim(0, max(tree$edge.length) + 0.015) +  # add space for names
+  theme_tree2()
+
+print(p)
+```
+
+# NASTAVAK (IBRISI ME KASNIJE)
+
+U nastavku vježbe ćemo napraviti stabla koristeći proteine koji su sastavni dio mišića. Razlike u tim proteinima rezultiraju različitim sposobnostima mačaka kao što su npr. brzina trčanja ili penjanje. Napravljena je i tablica svojstava koju ćemo koristiti kao pomoć u interpretaciji stabala.
+
+![](./03_maca_trka/Tablica_svojstava.png){fig-align="center" width="737"}
+
+# Mišićna kontrakcija
+
+Mišićno tkivo specijalizirano je za kontrakciju te omogućuje pokretanje cijelog ili dijelova tijela, protok krvi kroz krvožilni sustav kao posljedicu srčanih kontrakcija te peristaltiku izraženu u probavnom sustavu. Takđer, sudjeluju u procesu termogeneze, generirajući toplinu kao nusprodukt pretvaranja kemijske u kinetičku energiju hidrolizom ATP-a. S obzirom na karakteristike histoloških uzoraka mišićna tkiva podijeljena su u tri tipa : poprečno-prugasti (skeletni), glatki mišići i srčani mišić. Histološki preparati različitih tipova mišićnog tkiva prikazani su na *Slici 1.*
+
+**Poprečno-prugasti mišići** omogućuju gibanje kostiju i zglobova. Njhovim kontrakcijama upravlja središnji živčani sustav i pod utjecajem su naše volje. Sastoje se od velikoga broja paralelno postavljenih mišićnih vlakana obavijenih staničnom membranom i povezanih u mišićne snopove. Karakteristični su po prugastom uzorku vidljivim pod svjetlosnim mikroskopom.
+
+**Glatki mišići** nalaze se u stijenkama unutarnjih organa poput crijeva, krvnih žila i mokraćnog mjehura. Oni nisu pod voljnom kontrolom i omogućuju sporije, kontinuirane kontrakcije.
+
+**Srčani mišići** grade miokard, sloj mišićnog tkiva srca. Srčani mišić također je prugastog izgleda poput skeletnih mišića, međutim kontrahira autonomno poput glatkih mišića.
+
+![Slika 1. Histološki preparati poprečno-prugastog, srčanog i glatkog mišićnog tkiva](./03_maca_trka/Slika1_preparati.jpg){fig-align="center"}
+
+Poprečno-prugasti mišići, prema brzini kontrakcije dijele se na **brzo kontrahirajuća** vlakna koja su bljeđeg obojenja zbog niže koncentracije mioglobina, hemoproteina koji sudjeluje u prijenosu kisika, i **sporije kontrahirajuća** vlakna crvenog obojenja zbog više zastupljenosti miglobina. Brza vlakna specijalizirana su za eksplozivne pokrete, primjerice sprintanje, ali se brzo umaraju. Kao posljedicu nedostatka mioglobina, energiju dobivaju anaerobnim metabolizmom. Sporija vlakna karakterizira aerobni metabolizam, otpornija su na zamor i pogodna za dugotrajne aktivnosti poput trčanja na duge staze. Na *Slici 2.* prikazana su oba tipa poprečno-prugastih mišića, a *Slika 3.* prikazuje jasno vidljive razlike u građi skeletnih mišića u sprintera i maratonca.
+
+![Slika 2. Prikaz sporo kontrahirajućih, crveno obojenih, vlakana te brzo kontrahirajućih, bijelo obojenih, mišićnih vlakana](./03_maca_trka/Slika2_vlakna.jpg){fig-align="center"}
+
+![Slika 3. Usporedba morfoloških karakteristika poprečno-prugastih mišića sprintera i maratonca](./03_maca_trka/Slika3_usporedba.png){fig-align="center"}
+
+## **Građa mišićnih stanica**
+
+Mišićna vlakna su stanice cilindrične morfologije obavijene plazmatskom membranom sarkolemom u kojima se nalazi do nekoliko tisuća izduženih miofibrila obavijenih sarkoplazmatskom mrežicom (*Slika 4*). Miofibrile su ispunjene pravilno, paralelno raspoređenim aktinskim i miozinskim filamentima i organizirane su u funkcionalne kontrakcijske jedinice sarkomere koje se protežu između Z-diskova. (*Slika 5.*)
+
+
+![Slika 4. Građa mišićnog vlakna](./03_maca_trka/Slika4_grada-vlakna.png){fig-align="center"}
+
+![Slika 5. Građa sarkomere](./03_maca_trka/Slika5_sarkometa.png)
+
+## **Molekularni mehanizam kontrakcije**
+
+Kontrakcija mišića temelji se na interakciji aktina i miozina unutar sarkomera. Proces započinje kada kalcijevi ioni (Ca²⁺) oslobođeni iz sarkoplazmatskog retikuluma vežu protein **troponin**, što uzrokuje pomicanje **tropomiozina** s mjesta vezivanja na aktinu. To nadalje omogućuje miozinskim glavama da se vežu za aktin, čime dolazi do stvaranja poprečnih mostova. Hidroliza ATP-a omogućuje savijanje miozinskih glava, što povlači aktinske filamente prema centru sarkomere, uzrokujući kontrakciju. Ovaj ciklus se ponavljanja dok ima dovoljno ATP-a i kalcija u stanici. Molekularni mehanizam mišiće kontrakcije prikazan je na *Slikci 6*, *Slici 7* te *Slici 8*.
+
+![Slika 6. Molekularni mehanizam vezanja proteina troponina, pomicanja tropomiozina te stvaranje poprečnih mostova](./03_maca_trka/Slika6.gif)
+
+![Slika 7. Prikaz vezanja miozinske glave za aktin, stvaranje poprečnih mostova te pomicanja aktinskog filamenta](./03_maca_trka/Slika7.gif)
+
+![Slika 8. Molekularni mehanizam mišićne kontrakcije](./03_maca_trka/Slika8.gif)
+
+## Myosin Heavy Chain 4 (MYH4)
+
+MYH4 (Myosin Heavy Chain 4) je gen koji kodira za protein miozin-4 koji je prisutan u brzim skeletnim mišićima tipa IIb. Bitan je za brze i snažne kontrakcije mišića koje omogućuju sprintanje i brze reakcije. Razlike u ovom proteinu mogu utjecati na maksimalnu brzinu mačaka.
+
+Pronađene su aminokiselinske sekvence proteina MYH4 geparda, domaće mačke, leoparda, risa, tigra i lava. Sekvence su poravnate te je napravljeno filogenetsko stablo:
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: MYH4 stablo
+#Ucitavanje sekvence
+SequenceFile <-  list.files(pattern = "MYH4-macke.fasta", recursive = T, full.names = TRUE)
+
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences) ))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+
+#Stablo
+mt <- modelTest(AlignedSequences, model="WAG",
+                control = pml.control(trace = 0))
+# Run pml_bb() but capture and discard the output
+invisible(capture.output(
+  fit <- pml_bb(mt, model="WAG")
+))
+
+
+#Prikaz
+plotBS(midpoint(fit$tree), p = .5, type="p", digits=2)
+```
+
+### INTERPRETACIJA STABLA:
+
+MYH4 tigra i lava je srodan. Tigar i lav imaju sličnu maksimalnu brzinu trčanja.
+
+MYH4 leoparda i risa je blisko srodan. Obje životinje su dobri penjači.
+
+Zatim je s njima srodna domaća mačka te je gepard najudaljeniji. Gepard najviše odskače od ostalih mačaka svojom maksimalnom brzinom od čak 130 km/h.
+
+## Sarkoplazmatska/endoplazmatska kalcij ATP-aza 2 (ATP2A2)
+
+Gen ATP2A2 kodira za protein Sarkoplazmatska/endoplazmatska kalcij ATP-aza 2 koji je lokaliziran u membrani sarkoplazmatskog retikuluma mišićnih stanica te vrši funckiju intracelularne kalcijeve pumpe katalizirajući translokaciju kalcijevih iona iz citosola u lumen sarkoplazmatskog retikuluma u smjeru suprotnom od elektrokemijskog gradijenta, hidrolizirajući pritom ATP. Budući da je prisutnost kalcija u mišićnim vlaknima neophodna za uspostavljanje pravilnih interakcija između miozinskih i aktinskih molekula, posljedica čega je sposobnost mišićne kontrakcije, razlike u sekvenci, odnosno strukturi proteina ATP2A2 mogu utjecati na atletsku sposobnost vrsti divljih mačaka.
+
+Pronađene su aminokiselinske sekvence proteina ATP2A2 geparda, domaće mačke, leoparda, risa, tigra i lava. Sekvence su poravnate te je napravljeno filogenetsko stablo:
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: ATP2A2 stablo
+#Ucitavanje sekvence
+SequenceFile <- list.files(pattern = "ATP2A2-macke.fasta", recursive = T, full.names = TRUE)
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences) ))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+
+#Stablo
+mt <- modelTest(AlignedSequences, model="WAG",
+                control = pml.control(trace = 0))
+# Run pml_bb() but capture and discard the output
+invisible(capture.output(
+  fit <- pml_bb(mt, model="WAG")
+))
+
+
+#Prikaz
+plotBS(midpoint(fit$tree), p = .5, type="p", digits=2)
+```
+
+### INTERPRETACIJA STABLA:
+
+Najsrodniji su leopard i gepard koji s domaćom mačkom i risom čine jednu skupinu. Zatim slijedi lav pa tigar.
+
+Leopard je jako dobar penjač, a gepard sprinter. Obje životinje u tim aspektima pokazuju vrlo visoku atletsku sposobnost.
+
+\
+Ris i mačka su male životinje koje imaju sličan način lova koji se temelji na kratkim i eksplozivnim sprintovima. Mogu dugo loviti, ali nisu značajno dobre u penjanju ni trčanju.
+
+Lavovi love u čoporima te moraju izdržati dulje trčanje. Manje je bitna eksplozivnost i brzina.
+
+Tigrovi love individualno. Slabi su penjači te se lov temelji na dugom čekanju i kratkim eksplozivnim sprintovima (slično kao ris i domaća mačka, ali su tigrovi puno veći i teži te im je za istu stvar potrebna puno veća izdržljvost).
+
+## Podjedinica TnC troponina (TNNC2)
+
+TNNC2 gen kodira za podjedinicu TnC proteina troponina koji je bitan faktor u regulaciji kontrakcije mišićnih vlakana. TnT podjedinica veže protein tropomiozina koji onemogućava interakcije između miozina i aktina blokirajući vezna mjesta na aktinu. Kada TnC podjedinica veže kalcijeve ione otpuštene iz sarkoplazmatskog retikuluma mišićne stanice dolazi do konformacijske promjene troponina koji pomiče tropomiozin sa aktinskih veznih mjesta te dolazi do vezanja miozina i aktina, odnosno mišićne kontrakcije. Razlike u ovom genu utječu na sposobnost brzih sprintova.
+
+Pronađene su aminokiselinske sekvence proteina TNNC2 geparda, domaće mačke, leoparda, risa, tigra i lava. Sekvence su poravnate te je napravljeno filogenetsko stablo:
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: TNNC2 stablo
+#Ucitavanje sekvence
+SequenceFile <- list.files(pattern="TNNC2-macke.fasta", recursive = T, full.names = T)
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences) ))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+
+#Stablo
+mt <- modelTest(AlignedSequences, model="WAG",
+                control = pml.control(trace = 0))
+
+# Run pml_bb() but capture and discard the output
+invisible(capture.output(
+  fit <- pml_bb(mt, model="WAG")
+))
+
+
+#Prikaz
+plotBS(midpoint(fit$tree), p = .5, type="p", digits=2)
+```
+
+### INTERPRETACIJA STABLA:
+
+Najsrodniji su TNNC2 geni tigra i lava, te zatim leoparda pa geparda. Od njih su se odvojili ris i domaća mačka.
+
+Ris i domaća mačka su manje od ostalih mačaka te se vjerojatno zbog toga izdvajaju od ostalih mačaka. Imaju manje mišiće.
+
+## **Zaključak:**
+
+Stabla napravljena s različitim proteinima prikazuju različite veze između vrsta. To je jedna od mnogih komplikacija koje mogu nastati prilikom izrade filogenetskih stabala! Prilikom izrade filogenetskih stabala vrste potrebno je koristiti konzervirane gene kao što su citokrom c oksidaza. U ovom slučaju smo dobili filogenetsko stablo zasebnih proteina u vrstama, ali ne i cijele vrste. Ovakva filogenetska stabla nam mogu bolje pomoći da bolje razumijemo funkcije proteina.

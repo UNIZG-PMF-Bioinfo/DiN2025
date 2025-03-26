@@ -1,0 +1,32 @@
+---
+title: "Grupa za bioinformatiku"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+## Voditeljice radionce
+
+dr. sc. Paula Štancl
+
+Doris Repušić, mag. biol. mol.
+
+## Studenti
+
+Luka Boljkovac
+
+Gabriela Habuš
+
+Marta Novaković
+
+Lana Semenić
+
+Jana Šarolić
+
+Dominik Vincetić
+
+Sara Vukman
