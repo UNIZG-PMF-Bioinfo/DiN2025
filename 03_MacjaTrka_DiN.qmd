@@ -24,44 +24,6 @@ Mačke postoje već više od 10 milijuna godina! Prve mačke nalikovale su na pa
 
 No, nas samo zanimaju lav, tigar, gepard, domaća mačka, ris i leopard. Napravljeno je filogenetsko stablo s proteinima mitohondrijske citokrom c oksidaze.
 
-# PAULA STABLO S EMOJIMA
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| label: COI stablo
-#Ucitavanje sekvence
-SequenceFile <- list.files(pattern = "COI-macke.fasta", recursive = T, full.names = TRUE)
-
-Sequences <- readAAStringSet(SequenceFile)
-invisible(capture.output(Alignment <- msa(Sequences) ))
-AlignedSequences <- as.phyDat(Alignment, type = "AA")
-
-#Stablo
-mt <- modelTest(AlignedSequences, model="WAG",
-                control = pml.control(trace = 0))
-# Run pml_bb() but capture and discard the output
-invisible(capture.output(
-  fit <- pml_bb(mt, model="WAG")
-))
-
-# Prilagođeni nazivi s emojijima
-fit$tree$tip.label <- c(
-  "🦊 RIS",        # RIS
-  "🐱 DOMACA MACKA",   # DOMACA MACKA
-  "🐯 TIGAR",       # TIGAR
-  "🐆 LEOPARD",     # LEOPARD
-  "🦁 LAV",        # LAV
-  "🐾 GEPARD"      # GEPARD
-)
-
-# Dodaj boje za svaku vrstu (redoslijed isti kao gore)
-tip_colors <- c("orange", "gray40", "firebrick", "darkgreen", "goldenrod", "purple")
-
-# Iscrtavanje stabla s bojama i nazivima
-plot.phylo(midpoint(fit$tree), tip.color = tip_colors, cex = 1.2, font = 2)
-```
-# PAULA STABLO S EMOJIMA
 ```{r}
 #| echo: false
 #| warning: false
@@ -82,23 +44,35 @@ invisible(capture.output(
   fit <- pml_bb(mt, model="WAG")
 ))
 
+# midpoint
 tree <- midpoint(fit$tree)
-# Prilagođeni nazivi s emojijima
-images <- c(
-  "./03_maca_trka/stabala/lynx.png",       # RIS
-  "./03_maca_trka/stabala/cat.png",        # DOMACA MACKA
-  "./03_maca_trka/stabala/tiger.png",      # TIGAR
-  "./03_maca_trka/stabala/leopard.png",    # LEOPARD
-  "./03_maca_trka/stabala/lion.png",       # LAV
-  "./03_maca_trka/stabala/cheetah.png"     # GEPARD
+# izvadi ime slika
+tip_labels <- tree$tip.label %>% 
+    # ukloni viska razmaka ako ima
+    trimws(.)
+
+# BITNO JE DEFINIRATI IME OBJEKSRA S NAZIVOM ZIVOTINJA U FASTQ i pridodati odgovarajuci put do slike!
+image_map <- c(
+  "DOMACA MACKA" = "./03_maca_trka/stabala/cat.png",
+  "RIS" = "./03_maca_trka/stabala/lynx.png",
+  "TIGAR" = "./03_maca_trka/stabala/tiger.png",
+  "LEOPARD" = "./03_maca_trka/stabala/leopard.png",
+  "LAV" = "./03_maca_trka/stabala/lion.png",
+  "GEPARD" = "./03_maca_trka/stabala/cheetah.png"
 )
 
+
+# poslozi po redoslijedu u tip_labels
+images_ordered <- image_map[tip_labels]
+
+
 # Add image paths as a data frame
-tree_data <- data.frame(label = tree$tip.label, image = images)
+tree_data <- data.frame(label = tree$tip.label,
+                        image = images_ordered)
 
 # Iscrtavanje stabla s bojama i nazivima
 p <- ggtree(tree) %<+% tree_data +
-  geom_tiplab(aes(image = image), geom = "image", size = 0.12, offset = 0.002) +
+  geom_tiplab(aes(image = image), geom = "image", size = 0.12, offset = 0.001) +
   geom_tiplab(hjust = -0.1, size = 4) +
   xlim(0, max(tree$edge.length) + 0.015) +  # add space for names
   theme_tree2()
@@ -106,7 +80,6 @@ p <- ggtree(tree) %<+% tree_data +
 print(p)
 ```
 
-# NASTAVAK (IBRISI ME KASNIJE)
 
 U nastavku vježbe ćemo napraviti stabla koristeći proteine koji su sastavni dio mišića. Razlike u tim proteinima rezultiraju različitim sposobnostima mačaka kao što su npr. brzina trčanja ili penjanje. Napravljena je i tablica svojstava koju ćemo koristiti kao pomoć u interpretaciji stabala.
 
@@ -268,6 +241,6 @@ Najsrodniji su TNNC2 geni tigra i lava, te zatim leoparda pa geparda. Od njih su
 
 Ris i domaća mačka su manje od ostalih mačaka te se vjerojatno zbog toga izdvajaju od ostalih mačaka. Imaju manje mišiće.
 
-## **Zaključak:**
+## **Zaključak**
 
 Stabla napravljena s različitim proteinima prikazuju različite veze između vrsta. To je jedna od mnogih komplikacija koje mogu nastati prilikom izrade filogenetskih stabala! Prilikom izrade filogenetskih stabala vrste potrebno je koristiti konzervirane gene kao što su citokrom c oksidaza. U ovom slučaju smo dobili filogenetsko stablo zasebnih proteina u vrstama, ali ne i cijele vrste. Ovakva filogenetska stabla nam mogu bolje pomoći da bolje razumijemo funkcije proteina.
