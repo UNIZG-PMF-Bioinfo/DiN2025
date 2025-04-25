@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -127,11 +146,29 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Izrada filogenetskog stabla</h2>
+   
+  <ul>
+  <li><a href="#tablica-svojstava" id="toc-tablica-svojstava" class="nav-link active" data-scroll-target="#tablica-svojstava">Tablica svojstava</a></li>
+  <li><a href="#koraci-izrade-filogenetskog-stabla" id="toc-koraci-izrade-filogenetskog-stabla" class="nav-link" data-scroll-target="#koraci-izrade-filogenetskog-stabla">Koraci izrade filogenetskog stabla</a>
+  <ul class="collapse">
+  <li><a href="#spajanje-najbližih-srodnika" id="toc-spajanje-najbližih-srodnika" class="nav-link" data-scroll-target="#spajanje-najbližih-srodnika">Spajanje najbližih srodnika</a></li>
+  <li><a href="#spajanje-dvije-skupine-najbližih-srodnika" id="toc-spajanje-dvije-skupine-najbližih-srodnika" class="nav-link" data-scroll-target="#spajanje-dvije-skupine-najbližih-srodnika">Spajanje dvije skupine najbližih srodnika</a></li>
+  <li><a href="#kako-stablu-dodati-dalje-srodnike" id="toc-kako-stablu-dodati-dalje-srodnike" class="nav-link" data-scroll-target="#kako-stablu-dodati-dalje-srodnike">Kako stablu dodati dalje srodnike?</a>
+  <ul class="collapse">
+  <li><a href="#spajanje-najbližih-srodnika-unutar-udaljene-skupine" id="toc-spajanje-najbližih-srodnika-unutar-udaljene-skupine" class="nav-link" data-scroll-target="#spajanje-najbližih-srodnika-unutar-udaljene-skupine">Spajanje najbližih srodnika unutar udaljene skupine</a></li>
+  <li><a href="#primjer-pogreške-pri-spajanju-dvije-udaljene-skupine" id="toc-primjer-pogreške-pri-spajanju-dvije-udaljene-skupine" class="nav-link" data-scroll-target="#primjer-pogreške-pri-spajanju-dvije-udaljene-skupine">Primjer pogreške pri spajanju dvije udaljene skupine</a></li>
+  <li><a href="#primjer-ispravnog-spajanja-dvije-udaljene-skupine" id="toc-primjer-ispravnog-spajanja-dvije-udaljene-skupine" class="nav-link" data-scroll-target="#primjer-ispravnog-spajanja-dvije-udaljene-skupine">Primjer ispravnog spajanja dvije udaljene skupine</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#zašto-su-neke-osobine-češće-od-drugih" id="toc-zašto-su-neke-osobine-češće-od-drugih" class="nav-link" data-scroll-target="#zašto-su-neke-osobine-češće-od-drugih">Zašto su neke osobine češće od drugih?</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -150,15 +187,17 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Čovjeka je oduvijek zanimalo u kakvom srodstvu se nalaze različite vrste životinja, biljaka i drugih u odnosu jedna na drugu. Danas je već općepoznato da su svi organizmi na Zemlji neraskidivo povezani jer potječu od <strong>istog pretka</strong>. Međutim, i prije nego što su znanstvenici bili sigurni u to primijećene su neke <strong>sličnosti</strong> među organizamima koje su se više isticale nego njihove razlike – <em>na primjer, svima je na prvi pogled jasno da pčela i pauk imaju više toga zajedničkog nego pčela i pas. Ali što je sa psom i mačkom? A sa psom i vukom, ili pčelom i osom? Što ako usporedimo životinje i biljke, ili životinje i bakterije? Što ako usporedimo životinje koje su izumrle i one koje danas žive – kao što su ptice i dinosauri?</em> Pokušavajući odgovoriti na ovakva i slična pitanja uspjeli smo bolje razumjeti kako su živa bića dobila osobine po kojima ih danas poznajemo, kao što je perje kod ptica ili osam nogu kod paukova.</p>
-<p>Prvi pokušaji izrade <strong>„obiteljskog”</strong> <strong>stabla</strong> organizama bili su na temelju morfologije. Morfologija obuhvaća <strong>vidljive osobine</strong> živog bića kao što je broj očiju ili nogu, ima li krila ili peraje i slično. Neka osobina <strong>ne mora biti prisutna kroz cijeli život organizma</strong>, ali bitno je da je postojala u nekom životnom periodu kao što je <em>na primjer kukuljica kod leptira ili rep kod punoglavca, koji su prisutni samo na početku života: znamo da odrasli leptiri ne stvaraju kukuljice, a žabe nemaju rep</em>.&nbsp;</p>
-<p>Kako bi odredili srodstvo organizama na temelju morfologije prvo moramo napraviti <strong>tablicu svojstava</strong>. Tablica svojstava je tablica u kojoj se u redcima nalaze organizmi, a u stupcima morfološke osobine dok se u ćelijama (poljima) nalazi oznaka ima li organizam neko svojstvo ili nema (DA ili NE).</p>
-<p>U sljedećem primjeru želimo odrediti “obiteljsko” stablo šišmiša, gorile, divlje svinje, slona, krokodila i orla na temelju izabranih morfoloških osobina, a to su amnion, jaje s tvrdom ljuskom, mliječne žlijezde, pet prstiju i kljove. Sve životinje čine <strong>listove</strong> našeg stabla, a morfološke osobine čine <strong>čvorove</strong> iz kojih izlaze <strong>grane</strong>.</p>
+<p>Čovjeka je oduvijek zanimalo u kakvom srodstvu se nalaze različite vrste životinja, biljaka i drugih organizama. Danas je već općepoznato da su svi organizmi na Zemlji neraskidivo povezani jer potječu od <strong>istog pretka</strong>. Međutim, i prije nego što su znanstvenici bili sigurni u to, primijećene su neke <strong>sličnosti</strong> među organizamima koje su se više isticale nego njihove razlike – <em>na primjer, svima je na prvi pogled jasno da pčela i pauk imaju više toga zajedničkog nego pčela i pas. Ali što je sa psom i mačkom? A sa psom i vukom, ili pčelom i osom? Što ako usporedimo životinje i biljke, ili životinje i bakterije? Što ako usporedimo životinje koje su izumrle i one koje danas žive – kao što su ptice i dinosauri?</em> Pokušavajući odgovoriti na ovakva i slična pitanja uspjeli smo bolje razumjeti kako su živa bića dobila osobine po kojima ih danas poznajemo, kao što je perje kod ptica ili osam nogu kod paukova.</p>
+<p>Prvi pokušaji izrade <strong>„obiteljskog”</strong> <strong>stabla</strong> organizama bili su na temelju morfologije. Morfologija obuhvaća <strong>vidljive osobine</strong> živog bića kao što je broj očiju ili nogu, ima li krila ili peraje i slično. Neka osobina <strong>ne mora biti prisutna kroz cijeli život organizma</strong>, ali bitno je da je <strong>postojala u nekom trenutku života</strong> kao što je <em>na primjer kukuljica kod leptira ili rep kod punoglavca, koji su prisutni samo na početku života: znamo da odrasli leptiri ne stvaraju kukuljice, a žabe nemaju rep</em>.</p>
+<section id="tablica-svojstava" class="level1">
+<h1>Tablica svojstava</h1>
+<p>Kako bismo odredili <strong>srodstvo</strong> dvaju ili više organizama na temelju <strong>morfologije</strong> prvo moramo napraviti <strong>tablicu svojstava</strong>. Tablica svojstava je tablica u kojoj se u redcima nalaze organizmi, a u stupcima morfološke osobine dok se u ćelijama (poljima) nalazi oznaka ima li organizam neko svojstvo/osobinu ili nema (DA ili NE). Ako dva organizma imaju <strong>isti</strong> raspored DA i NE u <a href="#tbl-tablica_svojstava_primjer">tablici&nbsp;svojstava</a>, oni su <strong>najbliži</strong> mogući rođaci. S druge strane, čim imaju <strong>više razlika</strong> u tom rasporedu to su oni <strong>udaljeniji</strong> rođaci što značida jedan organizam ima DA, a drugi NE za neku osobinu, tj. da samo jedan organizam ima tu osobinu.</p>
+<p>U sljedećem primjeru želimo izraditi “obiteljsko” stablo šišmiša, gorile, divlje svinje, slona, krokodila i orla na temelju izabranih morfoloških osobina, a to su amnion, jaje s tvrdom ljuskom, mliječne žlijezde, pet prstiju i kljove. Sve životinje čine <strong>listove</strong> našeg stabla, a morfološke osobine čine <strong>čvorove</strong> iz kojih izlaze <strong>grane</strong> stabla. Prvi korak u izradi stabla je pravljenje <a href="#tbl-tablica_svojstava_primjer">tablice&nbsp;svojstava</a> kako bi vidjeli koje osobine životinje imaju (oznaka DA), a koje nemaju (oznaka NE).</p>
 <div class="cell tbl-cap-location-top">
 <div class="cell-output-display">
 <div id="tbl-tablica_svojstava_primjer" class="anchored">
 <table class="table table-striped table-sm small" data-quarto-postprocess="true" data-tbl-colwidths="5">
-<caption>Table&nbsp;1: <strong>Tablica 1.</strong> za osobine koje životinje imaju piše <strong>DA</strong>, a za osobine koje nemaju piše <strong>NE</strong>.</caption>
+<caption>Tablica&nbsp;svojstava: za osobine koje životinje imaju piše <strong>DA</strong>, a za osobine koje nemaju piše <strong>NE</strong>.</caption>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th" style="text-align: left; color: white !important; background-color: rgba(22, 49, 114, 255) !important;">životinja</th>
@@ -225,50 +264,89 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 </div>
-<p>Na temelju ovakve tablice crta se <strong>filogenetsko stablo</strong> koje poput obiteljskog stabla prikazuje srodstvene odnose između, u ovom slučaju, životinja i iz kojega jasno možemo očitati tko je kome bliski rođak, kao i iz obiteljskog stabla. No odakle krenuti?</p>
-<p>Pogledajmo kakav raspored osobina imamo u ovoj tablici, koliko DA, a koliko NE za pojedine osobine. Uočit ćemo da je šišmišu, gorili, divljoj svinji i slonu zajedničko da imaju mliječne žlijezde što ima smisla, pošto se radi o sisavcima. Međutim, postoje i razlike među ovim životinjama. Tako šišmiš i gorila imaju pet prstiju, a nemaju kljove dok divlja svinja i slon imaju kljove, ali nemaju pet prstiju. Zbog njihovih sličnosti i razlika ovu skupinu sisavaca, zahvaljujući <a href="#tbl-tablica_svojstava_primjer">tablici svojstava&nbsp;1</a>, možemo podijeliti u <a href="#fig-Slika1_2v">dvije podskupine&nbsp;1</a> pri čemu jednu podskupinu čine gorila i šišmiš, a drugu podskupinu divlja svinja i slon.</p>
+<p>Na temelju ovakve tablice crta se <strong>filogenetsko stablo</strong> koje poput obiteljskog stabla prikazuje <strong>srodstvene</strong> odnose između, u ovom slučaju, životinja i iz kojega jasno možemo očitati tko je kome bliski rođak, kao i iz obiteljskog stabla. No odakle krenuti?</p>
+</section>
+<section id="koraci-izrade-filogenetskog-stabla" class="level1">
+<h1>Koraci izrade filogenetskog stabla</h1>
+<section id="spajanje-najbližih-srodnika" class="level2">
+<h2 class="anchored" data-anchor-id="spajanje-najbližih-srodnika">Spajanje najbližih srodnika</h2>
+<p>Pogledajmo kakav raspored osobina imamo u ovoj <a href="#tbl-tablica_svojstava_primjer">tablici&nbsp;svojstava</a>, koliko DA, a koliko NE za pojedine osobine. Uočit ćemo da je šišmišu, gorili, divljoj svinji i slonu zajedničko da imaju mliječne žlijezde što ima smisla jer se radi o sisavcima. Međutim, postoje i razlike među ovim životinjama. Tako šišmiš i gorila imaju pet prstiju, a nemaju kljove, dok divlja svinja i slon imaju kljove, ali nemaju pet prstiju. Zbog njihovih sličnosti i razlika ovu skupinu sisavaca, zahvaljujući tablici svojstava, možemo podijeliti u dvije podskupine, kao što vidimo na <a href="#fig-Slika1_2v">Slici&nbsp;1</a> pri čemu jednu podskupinu čine gorila i šišmiš, a drugu podskupinu divlja svinja i slon.</p>
 <div id="fig-Slika1_2v" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="Slika1_2v.png" class="img-fluid figure-img" style="width:44.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: <strong>Slika 1.</strong> Šišmiš i gorila su srodni jer imaju pet prstiju, a slon i divlja svinja jer imaju kljove.</figcaption>
+<p><img src="02_metoda_morfo/Slika1_2v.png" class="img-fluid figure-img" style="width:44.0%"></p>
+<figcaption class="figure-caption">Slika&nbsp;1: Šišmiš i gorila su srodni jer imaju pet prstiju, a slon i divlja svinja jer imaju kljove.</figcaption>
 </figure>
 </div>
-<p>Sada znamo da su gorila i šišmiš u bliskom srodstvu jer imaju <strong>DA</strong> u istim stupcima tablice, odnosno sve osobine u našoj tablici koja ima gorila, ima i šišmiš. Na isti taj način spojili smo divlju svinju i slona, koji su rođaci po kljovama.</p>
-<p>Kao što smo spomenuli, iako se razlikuju u dva svojstva - broj prstiju i kljove - obje podskupine na Slici 1. pripadaju sisavcima jer svi imaju mliječne žlijezde. Svaki od ova dva para nalazi se na zasebnoj <strong>grani</strong> filogenetskog stabla, ali još uvijek se spajaju u toj osobini što je pokazano na Slici 2.</p>
-<div class="quarto-figure quarto-figure-center">
+<p>Sada znamo da su gorila i šišmiš u <strong>bliskom</strong> srodstvu jer imaju <strong>DA</strong> i <strong>NE</strong> u <strong>istim</strong> stupcima <a href="#tbl-tablica_svojstava_primjer">tablice&nbsp;svojstava</a>, odnosno sve osobine u našoj tablici koje ima gorila, ima i šišmiš. Isto tako, sve osobine koje gorila nema, nema niti šišmiš. Na isti taj način spojili smo divlju svinju i slona koji su rođaci po kljovama.</p>
+</section>
+<section id="spajanje-dvije-skupine-najbližih-srodnika" class="level2">
+<h2 class="anchored" data-anchor-id="spajanje-dvije-skupine-najbližih-srodnika">Spajanje dvije skupine najbližih srodnika</h2>
+<p>Kao što smo spomenuli, iako se razlikuju u dvjema osobinama - broj prstiju i kljove - obje podskupine na <a href="#fig-Slika1_2v">Slici&nbsp;1</a> pripadaju sisavcima jer svi imaju mliječne žlijezde. Svaki od ova dva para nalazi se na <strong>zasebnoj</strong> <strong>grani</strong> filogenetskog stabla, ali još uvijek se spajaju u toj osobini što je pokazano na <a href="#fig-Slika2">Slici&nbsp;2</a>.</p>
+<div id="fig-Slika2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="Slika2_2v.png" class="img-fluid figure-img" width="280"></p>
-<figcaption class="figure-caption"><strong>Slika 2.</strong> Šišmišu, gorili, divljoj svinji i slonu je zajedničko da imaju mliječne žlijezde.</figcaption>
+<p><img src="02_metoda_morfo/Slika2_2v.png" class="img-fluid figure-img" width="280"></p>
+<figcaption class="figure-caption">Slika&nbsp;2: Šišmišu, gorili, divljoj svinji i slonu je zajedničko da imaju mliječne žlijezde.</figcaption>
 </figure>
 </div>
-<p>Dolazimo do težeg dijela. Krokodil i orao nemaju niti kljove, niti pet prstiju, niti mliječne žlijezde - oni su sasvim različita skupina živih bića u odnosu na dosad spomenute sisavce. Kamo ćemo njih smjestiti? Prije svega, znamo da su oni jedan drugome svakako najbliskiji rođaci u tablici jer jedini od naših životinja imaju svojstvo jajeta s tvrdom ljuskom. Stoga ćemo ih povezati u par na isti način kao šišmiša i gorilu te divlju svinju i slona na Slici 1.</p>
-<div class="quarto-figure quarto-figure-center">
+</section>
+<section id="kako-stablu-dodati-dalje-srodnike" class="level2">
+<h2 class="anchored" data-anchor-id="kako-stablu-dodati-dalje-srodnike">Kako stablu dodati dalje srodnike?</h2>
+<p>Dolazimo do težeg dijela. Krokodil i orao nemaju niti kljove, niti pet prstiju, niti mliječne žlijezde - oni su sasvim različita skupina živih bića u odnosu na dosad spomenute sisavce. Kamo ćemo njih smjestiti?</p>
+<section id="spajanje-najbližih-srodnika-unutar-udaljene-skupine" class="level3">
+<h3 class="anchored" data-anchor-id="spajanje-najbližih-srodnika-unutar-udaljene-skupine">Spajanje najbližih srodnika unutar udaljene skupine</h3>
+<p>Prije svega, znamo da su oni jedan drugome svakako najbliži rođaci u tablici jer jedini od naših životinja imaju osobinu “jaje s tvrdom ljuskom”. Stoga ćemo ih povezati u par (<a href="#fig-Slika3">Slika&nbsp;3</a>) na isti način kao šišmiša i gorilu te divlju svinju i slona na <a href="#fig-Slika1_2v">Slici&nbsp;1</a>.</p>
+<div id="fig-Slika3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="Slika3_2v.png" class="img-fluid figure-img" width="397"></p>
-<figcaption class="figure-caption"><strong>Slika 3.</strong> Našem stablu dodajemo novu podskupinu. Novu podskupinu čine orao i krokodil čija zajednička osobina je jaje s tvrdom ljuskom.</figcaption>
+<p><img src="02_metoda_morfo/Slika3_2v.png" class="img-fluid figure-img" width="397"></p>
+<figcaption class="figure-caption">Slika&nbsp;3: Našem stablu dodajemo novu podskupinu. Novu podskupinu čine orao i krokodil čija zajednička osobina je jaje s tvrdom ljuskom.</figcaption>
 </figure>
 </div>
-<p>Ali što dalje? Ovdje moramo biti pažljivi da povežemo naše podskupine na pravo mjesto. Imamo dva izbora, možemo ih povezati prema mliječnim žlijezdama ili prema amnionu. Ako ih povežemo prema mliječnim žlijezdama dobit ćemo stablo na Slici 4. , ali to stablo je <strong>pogrešno</strong>! Spajanje osobine “jaje s tvrdom ljuskom” sa osobinom “mliječne žlijezde” pogrešno nam govori da i krokodil i orao imaju mliječne žlijezde i doje svoju mladunčad. Svi znamo da to nije tako, stoga je nužno da “jaje s tvrdom ljuskom” spojimo sa prvom sljedećom osobinom koje <strong>imaju</strong> i krokodil i orao.</p>
-<div class="quarto-figure quarto-figure-center">
+</section>
+<section id="primjer-pogreške-pri-spajanju-dvije-udaljene-skupine" class="level3">
+<h3 class="anchored" data-anchor-id="primjer-pogreške-pri-spajanju-dvije-udaljene-skupine">Primjer pogreške pri spajanju dvije udaljene skupine</h3>
+<p>Ali što dalje? Ovdje moramo biti pažljivi da povežemo naše podskupine preko prave osobine. Imamo dva izbora, možemo ih povezati preko <strong>mliječnih žlijezda</strong> ili prema <strong>amnionu</strong>.</p>
+<p>Filogenetsko stablo možemo od dna prema pojedinim životinjama čitati tako da svaka osobina koju prođemo na putu do naše tražene životinje ima DA u <a href="#tbl-tablica_svojstava_primjer">tablici&nbsp;svojstava</a>. Drugim riječima, <strong>ne smijemo</strong> povezati skupinu sa osobinom koje ona <strong>nema:</strong> kod svakog osobina s kojim je okomito povezana mora u tablici stajati DA.</p>
+<p>Ako povežemo skupinu “krokodil i orao” sa sisavcima preko <strong>mliječnih žlijezda</strong> dobit ćemo stablo na <a href="#fig-Slika4">Slici&nbsp;4</a> , ali to stablo je <strong>pogrešno</strong>! Spajanje osobine “jaje s tvrdom ljuskom” s osobinom “mliječne žlijezde” pogrešno nam govori da i krokodil i orao imaju mliječne žlijezde i doje svoju mladunčad. Svi znamo da to nije tako, a i u tablici svojstava tu stoji NE, stoga je nužno da “jaje s tvrdom ljuskom” spojimo s prvom sljedećom osobinom koje <strong>imaju</strong> i krokodil i orao.</p>
+<div id="fig-Slika4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="Slika4_2v.png" class="img-fluid figure-img" width="364"></p>
-<figcaption class="figure-caption"><strong>Slika 4.</strong> Ako spojimo naše podskupine na razini mliječnih žlijezda dobit ćemo pogrešno stablo jer krokodil i orao nemaju mliječne žlijezde.</figcaption>
+<p><img src="02_metoda_morfo/Slika4_2v.png" class="img-fluid figure-img" width="364"></p>
+<figcaption class="figure-caption">Slika&nbsp;4: Ako spojimo naše podskupine na razini mliječnih žlijezda dobit ćemo pogrešno stablo jer krokodil i orao nemaju mliječne žlijezde.</figcaption>
 </figure>
 </div>
-<p>Vidimo da sve životinje iz tablice imaju amnion - <em>svojevrsnu vrećicu ili balon koja obavija mladunče i pruža mu zaštitu sve do trenutka kad dođe na svijet</em>. <em>Neovisno o tome raste li mladunče u majčinoj utrobi kao kod sisavaca ili u jajetu kao kod ptica i gmazova, uvijek je obavijeno amnionom.</em> Upravo jer je amnion zajednička osobina svim našim životinjama trebamo ih povezati na njegovoj razini kao što je učinjeno na Slici 5. Ako pogledamo Sliku 5. vidimo da iznad amniona se nalaze grane i listovi pa to možemo interpretirati kao krošnju našeg stabla dok se ispod amniona ne nalazi ništa pa taj dio možemo interpretirati deblom našeg stabla, a na dnu debla nalazi se korijen. Zbog ovakve interpretacije takvu osobinu koju svi imaju, kao što amnion imaju sve životinje iz našeg primjera, nazivamo korijenom stabla.</p>
-<div class="quarto-figure quarto-figure-center">
+</section>
+<section id="primjer-ispravnog-spajanja-dvije-udaljene-skupine" class="level3">
+<h3 class="anchored" data-anchor-id="primjer-ispravnog-spajanja-dvije-udaljene-skupine">Primjer ispravnog spajanja dvije udaljene skupine</h3>
+<p>Vidimo da sve životinje iz tablice imaju amnion - <em>svojevrsnu vrećicu ili balon koja obavija mladunče i pruža mu zaštitu sve do trenutka kad dođe na svijet</em>. <em>Neovisno o tome raste li mladunče u majčinoj utrobi kao kod sisavaca ili u jajetu kao kod ptica i gmazova, uvijek je obavijeno amnionom.</em> Upravo jer je amnion zajednička osobina svim našim životinjama trebamo ih povezati na njegovoj razini kao što je učinjeno na <a href="#fig-Slika5">Slici&nbsp;5</a>. Ako pogledamo <a href="#fig-Slika5">Sliku&nbsp;5</a>, vidimo da iznad amniona se nalaze grane i listovi pa to možemo interpretirati kao krošnju našeg stabla dok se ispod amniona ne nalazi ništa pa taj dio možemo interpretirati deblom našeg stabla, a na dnu debla nalazi se korijen. Zbog ovakve interpretacije takvu <strong>osobinu koju svi imaju</strong>, kao što amnion imaju sve životinje iz našeg primjera, nazivamo <strong>korijenom</strong> stabla.</p>
+<div id="fig-Slika5" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="Slika5_2v.png" class="img-fluid figure-img" width="380"></p>
-<figcaption class="figure-caption"><strong>Slika 5.</strong> Ako spojimo naše podskupine na razini amniona, dobit ćemo točno stablo jer je svim našim životinjama amnion zajednička osobina.</figcaption>
+<p><img src="02_metoda_morfo/Slika5_2v.png" class="img-fluid figure-img" width="380"></p>
+<figcaption class="figure-caption">Slika&nbsp;5: Ako spojimo naše podskupine na razini amniona, dobit ćemo točno stablo jer je svim našim životinjama amnion zajednička osobina.</figcaption>
 </figure>
 </div>
-<p>Ovako (Slika 5.) izgleda <strong>točno</strong> filogenetsko stablo za tablicu u našem primjeru. Ako pratimo svojstva iz korijena prema prikazima životinja, vidjet ćemo koja točno svojstva ima koja životinja. Na primjer, prema filogenetskom prikazu vidjet ćemo da slon ima amnion, zatim mliječne žlijezde, te na kraju kljove. To je sve točno, i u tablici u svakom od tih stupaca stoji <strong>DA</strong>. Isto tako vrijedi i za ostale životinje iz tablice, a stablo koje smo na ovaj način dobili omogućuje nam da intuitivno shvatimo i uvidimo da su orao i krokodil bliži rođaci nego orao i šišmiš - usprkos tome što oboje imaju krila. Ovakva filogenetska stabla znanstvenicima pomažu da razjasne mnoga pitanja o nastanku života na Zemlji.</p>
-<p>Na kraju nam ostaje da objasnimo zašto neku osobinu ima više životinja, a neku manje. To ovisi o starosti osobine. Što <strong>više organizama</strong> posjeduje neku osobinu, to je ta <strong>osobina starija</strong> što znači da ju imaju i bliski i daleki srodnici. To jest, u nekom je davnom trenutku to svojstvo nastalo, i onda su ga svi potomci naslijedili. <em>Uzmimo za primjer rep: recimo da je neka životinja prije mnogo milijuna godina imala rep, i sve njoj srodne životinje koje su nakon nje nastale također su imale rep. To su danas i ptice, i sisavci, i gmazovi – pošto ima toliko puno različitih životinja koje danas imaju rep, znamo da se on morao pojaviti jako davno. Da bi nastale različite skupine životinja potrebno je puno vremena, a njihova zajednička karakteristika – rep – govori nam da su nekoć jako, jako davno ipak bile slične, dapače, da potječu od istog repatog pretka. Kroz mnogo milijuna godina pojavile su se među njima mnoge razlike, ali rep je ostao.</em></p>
-<p>S druge strane, ako neku osobinu posjeduje <strong>mali broj organizama</strong>, ta je <strong>osobina mlađa</strong> što znači da ju imaju bliski srodnici, a u daljih srodnika ne postoji pošto su oni živjeli prije nego li je ta osobina uopće postojala. <em>Kao primjer uzmimo sisavce, koji rađaju žive mlade. Rađanje živih mladih prisutno je kod svih sisavaca, koji su bliski srodnici, ali ptice, gmazovi, vodozemci i ribe, koji su svi u dalekom srodstvu sa sisavcima, nemaju tu sposobnost, već umjesto toga nesu jaja!</em> <strong>Usprkos tome, oni su svi u srodstvu, ali neki od njih su bliskiji rođaci od drugih.</strong></p>
+<p>Ovako (<a href="#fig-Slika5">Slika&nbsp;5</a>) izgleda <strong>točno</strong> filogenetsko stablo za tablicu u našem primjeru. Ako pratimo osobine iz korijena prema prikazima životinja, vidjet ćemo koje točno osobine <strong>ima</strong> koja životinja. Na primjer, prema filogenetskom prikazu vidjet ćemo da slon ima amnion, zatim mliječne žlijezde, te na kraju kljove. To je sve točno, i u <a href="#tbl-tablica_svojstava_primjer">tablici&nbsp;svojstava</a> u svakom od tih stupaca stoji <strong>DA</strong>. Isto tako vrijedi i za ostale životinje iz tablice, a stablo koje smo na ovaj način dobili omogućuje nam da intuitivno shvatimo i uvidimo da su orao i krokodil bliži rođaci nego orao i šišmiš - usprkos tome što oboje imaju krila. Ovakva filogenetska stabla znanstvenicima pomažu da razjasne mnoga pitanja o nastanku života na Zemlji.</p>
+</section>
+</section>
+</section>
+<section id="zašto-su-neke-osobine-češće-od-drugih" class="level1">
+<h1>Zašto su neke osobine češće od drugih?</h1>
+<p>Na kraju nam ostaje da objasnimo zašto neku osobinu ima više životinja, a neku manje. To ovisi o starosti osobine. Što <strong>više organizama</strong> posjeduje neku osobinu, to je ta <strong>osobina starija</strong> što znači da ju imaju <strong>i bliski i daleki</strong> srodnici. To jest, u nekom je davnom trenutku ta osobina nastala, i onda su je svi potomci naslijedili. <em>Uzmimo za primjer rep: recimo da je neka životinja prije mnogo milijuna godina imala rep, i sve njoj srodne životinje koje su nakon nje nastale također su imale rep. To su danas i ptice, i sisavci, i gmazovi – pošto ima toliko puno različitih životinja koje danas imaju rep, znamo da se on morao pojaviti jako davno. Da bi nastale različite skupine životinja potrebno je puno vremena, a njihova zajednička osobina – rep – govori nam da su nekoć jako, jako davno ipak bile slične, dapače, da potječu od istog repatog pretka. Kroz mnogo milijuna godina pojavile su se među njima mnoge razlike, ali rep je ostao.</em></p>
+<p>S druge strane, ukoliko neku osobinu ima <strong>mali broj organizama</strong>, ta je <strong>osobina mlađa</strong> što znači da je nastala kasnije i zato je imaju <strong>samo bliski</strong> srodnici. Oni koji su se ranije u prošlosti razdvojili, tu osobinu nisu ni dobili. <em>Kao primjer uzmimo sisavce koji rađaju žive mlade. Rađanje živih mladih prisutno je kod svih sisavaca, koji su bliski srodnici, ali ptice, gmazovi, vodozemci i ribe, koji su svi u dalekom srodstvu sa sisavcima, nemaju tu sposobnost, već umjesto toga nesu jaja!</em> <strong>Usprkos tome, oni su svi u srodstvu, ali neki od njih su bliži rođaci od drugih.</strong></p>
 
 
 
-</main> <!-- /main -->
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Literatura</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-phylogen" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Phylogenetic Trees and Monophyletic Groups | Learn Science at Scitable [Internet]. Dostupno na: <a href="http://www.nature.com/scitable/topicpage/reading-a-phylogenetic-tree-the-meaning-of-41956">http://www.nature.com/scitable/topicpage/reading-a-phylogenetic-tree-the-meaning-of-41956</a></div>
+</div>
+<div id="ref-4.taxon" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Robert Bear DR. 4. Taxonomy and phylogeny. In OpenStax CNX; Dostupno na: <a href="http://archive.org/details/cnx-org-col11569">http://archive.org/details/cnx-org-col11569</a></div>
+</div>
+<div id="ref-baumdavid2008" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Baum, David. Reading a phylogenetic tree: The meaning of monophyletic groups. Nature Education. 2008;1(1):190. </div>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

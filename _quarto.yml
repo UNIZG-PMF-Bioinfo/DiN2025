@@ -32,3 +32,6 @@ format:
     toc: true
     page-layout: full
 editor: visual
+
+resources:
+  - 04_galerija/3D_pritanje.mp4

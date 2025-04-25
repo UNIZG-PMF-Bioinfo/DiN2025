@@ -7,21 +7,103 @@ execute:
   echo: false
   warning: false
   message: false
+bibliography: 02_metoda_mol/02_Literatura.bib
+csl: Vancouver_Cro_edit.csl
+language:
+  section-title-references: "Literatura"
 ---
 
-# Molekularna filogenija
 
 Evolucijska stabla možemo dobiti na više načina. Kada vrste uspoređujemo na temelju njihovih morfoloških obilježja kao što su to broj nogu, prisutnost repa ili kandži, dobijemo nešto ovakvo.
 
-![Slika 1. Filogenetsko stablo prema morfološkim karakteristikama](fotografija/morfološki.png)
+![Slika 1. Filogenetsko stablo prema morfološkim karakteristikama.](02_metoda_mol/morfološki.png){width="707"}
 
-Stablo možemo dobiti i usporedbom molekularnih karakteristika, točnije slijeda slova u genetskom kodu, bilo DNA ili proteina. Tada stablo ima nešto više podataka i izgleda ovako.
+Osim na temelju morfoloških obilježja, evolucijsko stablo možemo izgraditi i analizom molekularnih karakteristika - tzv. molekularnom filogenijom. Ova metoda koristi usporedbu genetskih sekvenci, bilo DNA ili proteina, odnosno redoslijed nukleotida ili aminokiselina. Takvo stablo obično sadrži više informacija i može izgledati ovako:
 
-![Slika 2. Filogenetsko stablo prema molekularnoj filogeniji](fotografija/molekularno.png)
+```{r tree-plot, fig.cap = "Slika 2. Filogenetsko stablo prema molekularnoj filogeniji."}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+#Paketi
+library(msa)
+library(ape)
+library(seqinr)
+library(phangorn)
+# Učitavanje sekvence
+SequenceFile <- list.files(pattern = "MSAprot_fasta_trimmed.fasta", 
+                           recursive = TRUE, 
+                           full.names = TRUE)
 
-Prema stopi mutacija može se dobiti vremenska udaljenost razdvajanja određenih vrsta -- kronogram, ili molekularna različitost -- filogram. U oba slučaja imamo uz stablo referentnu skalu (slično mjerilu na geografskoj karti) prema kojoj možemo sa slike iščitati te podatke (molekularnu i vremensku udaljenost) kao razliku u duljini grana.
+Sequences <- readAAStringSet(SequenceFile)
+invisible(capture.output(Alignment <- msa(Sequences)))
+AlignedSequences <- as.phyDat(Alignment, type = "AA")
+# Modeliranje stabla
+mt <- modelTest(AlignedSequences, model = "WAG", control = pml.control(trace = 0))
+invisible(capture.output(fit <- pml_bb(mt, model = "WAG")))
+tree <- midpoint(fit$tree)
 
-Zahvaljujući molekularnoj filogenetici danas znamo:
+library(ggtree)
+library(ggimage)
+library(ggplot2)
+
+# 1. Rename tree tips first 
+tip_labels <- trimws(tree$tip.label)
+
+custom_rename_map <- c(
+  "YP 009159363.1 cytochrome c oxidase subunit I (mitochondrion) Holacanthus ciliaris" = "Holacanthus ciliaris",
+  "NP 059569.1 cytochrome c oxidase subunit I (mitochondrion) Sciurus vulgaris" = "Sciurus vulgaris",
+  "YP 009706677.1 cytochrome c oxidase subunit I (mitochondrion) Ara macao" = "Ara macao",
+  "YP 009340708.1 cytochrome c oxidase subunit I (mitochondrion) Eublepharis macularius" = "Eublepharis macularius",
+  "WIA66149.1 cytochrome c oxidase subunit I (mitochondrion) Enteroctopus dofleini" = "Enteroctopus dofleini"
+)
+matched <- match(tip_labels, names(custom_rename_map))
+tree$tip.label <- ifelse(!is.na(matched), custom_rename_map[matched], tip_labels)
+# 2. Plot initial ggtree to get tip coordinates
+p <- ggtree(tree)
+tree_coords <- p$data[p$data$isTip, c("label", "x", "y")]
+
+# 3. Add image paths and sizes manually
+tree_data <- data.frame(
+  label = tree_coords$label,
+  image = c(
+    "02_metoda_mol/holacanthus-ciliaris-removebg-preview.png",
+    "02_metoda_mol/sciurus-vulgaris.png",
+    "02_metoda_mol/adult-red-green-macaw-species-ara-chloropterus_313877-15789-removebg-preview.png",
+    "02_metoda_mol/eublepharis-macularius-removebg-preview.png",
+    "02_metoda_mol/enteroctopus-dofleini-removebg-preview.png"
+  ),
+  size = c(0.15, 0.18, 0.13, 0.12, 0.22)
+)
+
+# 4. Merge image info with coordinates
+tree_data <- merge(tree_data, tree_coords, by = "label")
+# Get node data (non-tip)
+node_data <- p$data[!p$data$isTip & !is.na(p$data$label), ]
+# Convert label to numeric
+node_data$label_num <- suppressWarnings(as.numeric(node_data$label))
+
+# Filter to keep valid numeric labels (bootstrap values)
+node_data_filtered <- subset(node_data, !is.na(label_num) & label_num >= 0.50)
+
+# Step 4: Final plot
+p +
+  geom_image(data = tree_data, aes(x = x + 0.08, y = y, image = image, size = I(size))) +
+  geom_text(data = tree_data, aes(x = x + 0.142, y = y, label = label), 
+            hjust = 0, size = 4.5, fontface = "italic") +
+  geom_treescale(x = 0, y = -0.5, width = 0.1) +
+  geom_text(
+  data = node_data_filtered, 
+  aes(x = x + 0.045, y = y, label = label),
+  size = 3, vjust = -0.5, color = "gray30"
+  ) +
+  xlim(0, max(tree_coords$x) + 0.5) +
+  theme_tree(base_size = 68)
+
+invisible (head(p$data[!p$data$isTip & !is.na(p$data$label), c("label")]))
+```
+
+Prema stopi mutacija, koliko se često mutacije događaju, može se dobiti vremenska udaljenost razdvajanja određenih vrsta -- kronogram, ili molekularna različitost -- filogram. U oba slučaja imamo uz stablo referentnu skalu (slično mjerilu na geografskoj karti) prema kojoj možemo sa slike iščitati te podatke (molekularnu i vremensku udaljenost) kao razliku u duljini grana. Kod filograma, dakle, možemo vidjeti koliko su vrste molekularno promijenjene, a kod kronograma koliko su vremenski udaljene, koja je evoluirala prije. [@pavlopoulos2010]
+
+Zahvaljujući molekularnoj filogenetici danas znamo da su:
 
 -   Mravi beskrilne ose 
 
@@ -35,7 +117,9 @@ Zahvaljujući molekularnoj filogenetici danas znamo:
 
 -   Ptice jedini preživjeli potomci dinosaura te da su time i same dinosauri
 
--   (Plastidi cijanobakterije koje žive unutar eukariotske citoplazme)
+-   Plastidi cijanobakterije koje žive unutar eukariotske citoplazme
+
+    (Skejo 2024)
 
 ## Kako napraviti filogenetsko stablo prema molekularnoj filogenetici?
 
@@ -51,17 +135,19 @@ Zahvaljujući molekularnoj filogenetici danas znamo:
 
 6.  interpretacija ⟶ pisanje znanstvenog rada
 
-\*Mi imamo baze podataka (s milijunima dostupnih sekvenci za skoro sve poznate vrste, najviše za vrste koje znanstvenici koriste u laboratoriju i za čovjeka) iz kojih idemo odmah na sravnjivanje (4. korak).
+\*Mi imamo baze podataka (s milijunima dostupnih sekvenci za skoro sve poznate vrste, najviše za vrste koje znanstvenici koriste u laboratoriju i za čovjeka) iz kojih idemo odmah na sravnjivanje (4. korak).\
+<https://www.ncbi.nlm.nih.gov/>
 
 ### Sravnjivanje sekvenci
 
-Za početak pretražimo baze podataka i izaberemo sekvence koje nas zanimaju i za koje vjerujemo da su točne. U određenom programu stavimo sekvence jednu iznad druge i izbacimo redundantne dijelove („viškove") -- ono što je isto u svim ili skoro svim sekvencama (vertikalno, stupci) -- vrste možemo razdvojiti samo na temelju njihovih razlika!
+Za početak pretražimo baze podataka i izaberemo sekvence koje nas zanimaju i za koje vjerujemo da su točne. U određenom programu stavimo sekvence jednu iznad druge i izbacimo redundantne dijelove (viškove) -- ono što je isto u svim ili skoro svim sekvencama (vertikalno, stupci) -- vrste možemo razdvojiti samo na temelju njihovih razlika!
 
-![Slika 3. Sravnjivanje sekvenci DNA. Zvjezdicom iznad stupca (\*) označeni su dijelovi koji su u svim sekvencama isti i mogu se zanemariti, možemo primijetiti i da su slova u tim stupcima iste boje, ista su.](fotografija/sravnjivanje.png)
+![Slika 3. Sravnjivanje sekvenci DNA. Zvjezdicom iznad stupca (\*) označeni su dijelovi koji su u svim sekvencama isti i mogu se zanemariti, možemo primijetiti i da su slova u tim stupcima iste boje, ista su. Vizualizacija u programu MEGA, verzija 11.0.13.](02_metoda_mol/sravnjivanje.png)
 
 Moguće je sravniti sekvence aminokiselina (proteinske) ili nukleotidnih baza (DNA). U našem slučaju stablo nije bilo dobro s DNA, već tek kad smo uzeli proteinske sekvence, koje su kod evolucijski udaljenijih vrsta (vjeverica i hobotnica) bolje sačuvane zbog svojih svojstava (proteinske se sekvence manje mijenjaju, funkcionalnost mora biti očuvana, DNA kod je redundantan i mijenja se puno češće i s manjim posljedicama).
 
-Najčešće izaberemo jedan gen, UNILOKUSNA filogenija, iako onda moramo biti svjesni da dobiveno stablo ne mora vrijediti za vrste (filogenija gena nije filogenija vrste, međutim topologija, oblik stabla, koji se opetovano ponavlja kod različitih gena najvjerojatnije točno odražava evoluciju proučavane skupine).
+Najčešće izaberemo jedan gen, UNILOKUSNA filogenija, iako onda moramo biti svjesni da dobiveno stablo ne mora vrijediti za vrste (filogenija gena nije filogenija vrste, međutim topologija, oblik stabla, koji se opetovano ponavlja kod različitih gena najvjerojatnije točno odražava evoluciju proučavane skupine).\
+[@robles2017a]
 
 U bazama podataka najčešće su nam dostupni sljedeći geni:
 
@@ -74,49 +160,13 @@ Jezgrini geni: ITS (590 bp), 16S (1550 bp), 18S (1500--2000 bp).
 ### Filogenetska analiza
 
 1.  Fenetičke metode (*distance-based*, naglasak na razlikama i sličnostima, „udaljenosti"): UPGMA--unweighted pair group method with arithmetic mean Neighbour-joining Minimum evolution
-2.  Kladističke metode (*character-based*, bitan način evolucije svojstava): MP--Maximum Parsimony (evolucija u najmanji broj koraka je točna) ML--Maximum Likelihood (uz model evolucije) BI--Bayesian Inference (uz početne pretpostavke i dodatne podatke)
+2.  Kladističke metode (*character-based*, bitan način evolucije svojstava): MP--Maximum Parsimony (evolucija u najmanji broj koraka je točna) ML--Maximum Likelihood (uz model evolucije) BI--Bayesian Inference (uz početne pretpostavke i dodatne podatke)\
+    [@horiike2016]
 
 ### Interpretacija
 
 U biologiji podatke uvijek moramo i potvrditi matematikom, tu granu matematike zovemo statistika. Kod stabla svaki čvor dobije jedan broj, tzv. BOOTSTRAP vrijednost koja predstavlja statističku podržanost, a u analizi vjerujemo čvorovima s velikim brojevima, čvorove s manjim brojevima "urušimo".
 
 DULJINA GRANA - Duge grane tumače se većom izolacijom od srodnih skupina koje u filogramu imaju kraće grane, tj. manje mutacija ili manje genske promjene u odnosu na srodnike.\
-Drugim riječima, životinje koje su se davno u prošlosti međusobno odvojile od zajedničkog pretka, na stablu će biti udaljenije od čvora koji predstavlja tog pretka.
-
-```{r setup, include=FALSE}
-#| echo: false
-#| warning: false
-#| message: false
-
-
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(echo = TRUE)
-#Paketi
-library(msa)
-library(ape)
-library(seqinr)
-library(phangorn)
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-
-#Ucitavanje sekvence
-SequenceFile <- "data/MSAprot_fasta_trimmed.fasta"
-Sequences <- readAAStringSet(SequenceFile)
-Alignment <- as.phyDat(Sequences)
-#Stablo
-mt <- modelTest(Alignment, model="WAG",
-                control = pml.control(trace = 0))
-
-# Run pml_bb() but capture and discard the output
-invisible(capture.output(
-  fit <- pml_bb(mt, model="WAG")
-))
-
-
-#Prikaz
-plotBS(midpoint(fit$tree), p = .5, type="p", digits=2)
-```
+Drugim riječima, životinje koje su se davno u prošlosti međusobno odvojile od zajedničkog pretka, na stablu će biti udaljenije od čvora koji predstavlja tog pretka.\
+[@holmes2003]

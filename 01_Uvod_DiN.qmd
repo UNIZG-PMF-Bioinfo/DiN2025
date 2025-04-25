@@ -4,20 +4,24 @@ format:
   html:
     self-contained: true
 editor: visual
-bibliography: references.bib
+bibliography: 01_uvod/01_Literatura.bib
+csl: Vancouver_Cro_edit.csl
+language:
+  section-title-references: "Literatura"
+  crossref-fig-title: "Slika"
 ---
 
 Prije jako, jako puno vremena, prije otprilike četiri milijarde godina, živio je jedan zajednički predak svih živih bića. Iz tog pretka razvili su se svi -- biljke, životinje, gljive, bakterije i mi!
 
-Taj zajednički predak zvao se **LUCA** (engl. *Last Universal Common Ancestor*). LUCA je bio vrlo jednostavan organizam, sličniji bakterijama i arhejama. Imao je osnovni genetski materijal (DNA ili RNA), koji mu je omogućio da se razmnožava i mijenja[@Krupovic2020].
+Taj zajednički predak zvao se **LUCA** (engl. *Last Universal Common Ancestor*). LUCA je bio vrlo jednostavan organizam, sličniji bakterijama i arhejama [@moody2024]. Imao je osnovni genetski materijal, DNA ili RNA [@poole2005], koji mu je omogućio da se razmnožava i mijenja.
 
-Kako se LUCA razmnožavao, njegovi potomci su se postupno mijenjali kroz jako dugo vrijeme. Tako su nastale različite vrste koje danas poznajemo - od guštera do mačaka, pa i ljudi!
+Kako se LUCA razmnožavao, njegovi potomci su se postupno mijenjali kroz jako dugo vrijeme. Tako su nastale različite vrste koje danas poznajemo -- od guštera do mačaka, pa i ljudi!
 
-**Stablo života** prikazuje tu evoluciju. Naš zajednički predak nalazi se u korijenu stabla, a svi organizmi nalaze se na vrhovima ogranaka -- listovima -- koji iz njega izrastaju.
+**Stablo života** (@fig-Slika1) prikazuje tu evoluciju. Naš zajednički predak nalazi se u korijenu stabla, a svi organizmi nalaze se na vrhovima ogranaka -- listovima -- koji iz njega izrastaju.
 
-Znanost koja proučava stabla života i povezanost među vrstama zove se **filogenetika**.
+Znanost koja proučava stabla života i povezanost među vrstama zove se **filogenetika** [@baxevanis2004].
 
-![Slika 1. Shematski prikaz stabla života](DiN_stablo.png)
+![Shematski prikaz stabla života. Prokarioti su sićušni organizmi u koje spadaju bakterije (eubakterije) i arheje (slične bakterijama). Eukarioti su svi ostali -- alge, biljke, gljive, životinje itd. Tu spadamo i mi, ljudi. Preuzeto i prilagođeno prema [@mcivor2025].](01_uvod/DiN_stablo.png){#fig-Slika1}
 
 # Kako napraviti stablo života?
 
@@ -25,20 +29,32 @@ Znanost koja proučava stabla života i povezanost među vrstama zove se **filog
 
 Ako imamo nekoliko organizama, možemo nacrtati jako puno različitih stabala s njima. Kako znamo koje je ispravno?
 
-Kad proučavamo filogeniju, postoji nešto što se zove **štedljivost** (engl. *parsimony*). Obično pretpostavimo da je ispravno stablo ono koje je nastalo iz najmanjeg broja **evolucijskih događaja**. Za njega kažemo da ima **maksimalnu štedljivost**. Kao što u štednji novca želimo smanjiti iznos kojeg trošimo, tako ovdje želimo uštediti na broju evolucijskih događaja.
+Kad proučavamo filogeniju, postoji nešto što se zove **štedljivost** (engl. *parsimony*). Obično pretpostavimo da je ispravno stablo ono koje je nastalo iz najmanjeg broja **evolucijskih događaja**. Za njega kažemo da ima **maksimalnu štedljivost** [@lemey2009]. Kao što u štednji novca želimo smanjiti iznos kojeg trošimo, tako ovdje želimo uštediti na broju evolucijskih događaja.
 
 Primjer evolucijskog događaja je nastanak krila. Recimo da stablo sadrži nekoliko životinja, među kojima dvije imaju krila: sova i vrabac. Zanima nas jesu li krila u prošlosti nastala jednom ili dvaput. Ako su nastala dvaput, to je možda prvi put bilo u ptici koja je predak samo sove, a drugi put u ptici koja je predak samo vrapca. To nije nemoguće, ali je „štedljivija" (i jednostavnija) opcija da su krila nastala samo jednom, u zajedničkom pretku sove i vrapca.
 
 ## Poravnavanje DNA i UPGMA
 
-Za izgradnju još točnijih stabala, znanstvenici umjesto vanjskih obilježja, kao što su krila, kandže, dlaka i peraje, koriste **deoksiribonukleinska kiselina (engl. *deoxyribonucleic acid*, DNA)**, molekulu koja nosi nasljedne informacije svih živih bića. DNA ima svoj kod, kojeg možemo zapisati slovima A, C, G i T. Primjer DNA koda je „ATCGGC...". Sljedove ovih slova možemo uspoređivati pomoću **poravnavanja**.
+Za izgradnju još točnijih stabala, znanstvenici umjesto vanjskih obilježja, kao što su krila, kandže, dlaka i peraje, koriste **deoksiribonukleinsku kiselinu** (engl. *deoxyribonucleic acid*, **DNA**), molekulu koja nosi nasljedne informacije svih živih bića ([@fig-Slika2]). DNA ima svoj kod, kojeg možemo zapisati slovima A, C, G i T. Primjer DNA koda je „ATCGGC..." [@alberts2015]. Sljedove ovih slova (**sekvence**) možemo uspoređivati pomoću **poravnavanja**.
 
-U poravnavanju želimo namjestiti dva slijeda jedan ispod drugog tako da nam je lako uočiti sličnosti između njih. Ako smo uspjeli staviti ista slova jedno ispod drugog, dobivamo bodove. Ako nismo to uspjeli, gubimo bodove. Kad je DNA dva organizma slična, tj. imamo puno bodova, to upućuje na njihovu **srodnost**.
+![Shematski prikaz deoksiribonukleinske kiseline (DNA). DNA ima dva lanca i čitaju se od kraja označenog s 5' prema kraju označenog s 3'. Primijetimo da je slovo A iz jednog lanca uvijek nasuprot slova T iz drugog lanca. Isto tako, C iz jednog lanca je uvijek nasuprot G iz drugog lanca. Dakle, ako znamo sekvencu jednog lanca, automatski znamo i sekvencu drugog, zbog čega možemo zapisivati samo jednu od njih. Preuzeto od [@alberts2015].](01_uvod/DiN_DNA.png){#fig-Slika2}
 
-Jedna metoda crtanja stabala zove se **UPGMA** (kratica za engl. *Unweighted Pair Group Method With Arithmetic Mean*). Možda zvuči komplicirano, ali zapravo nije. Postupak je sljedeći:
+U poravnavanju želimo namjestiti dvije sekvence jednu ispod druge tako da nam je lako uočiti sličnosti između njih. Ako smo uspjeli staviti ista slova jedno ispod drugog, dobivamo bodove. Ako nismo to uspjeli, gubimo bodove [@lesk2012]. Kad je DNA dva organizma slična, tj. imamo puno bodova, to upućuje na njihovu **srodnost**.
 
-1.  Pomoću poravnavanja odredimo dvije vrste s najsličnijim DNA sljedovima. To su one koje u međusobnom poravnavanju steknu najviše bodova.
+Jedna metoda crtanja stabala zove se **UPGMA** (kratica za engl. *unweighted pair group method with arithmetic mean*) [@lemey2009]. Možda zvuči komplicirano, ali zapravo nije. Postupak je sljedeći:
+
+1.  Pomoću poravnavanja odredimo dvije vrste s najsličnijim DNA sekvencama. To su one koje u međusobnom poravnavanju steknu najviše bodova.
 2.  Te dvije vrste stavimo u jednu grupu.
 3.  Među preostalim sekvencama odaberemo onu koja je najsličnija prethodnim sekvencama (i jednoj i drugoj zajedno).
 4.  Sad sve tri sekvence čine jednu grupu na stablu, a prve dvije jednu podgrupu unutar te grupe.
 5.  Nastavimo postupak s drugim sekvencama.
+
+## Proteinske sekvence
+
+Što je zapravo zapisano u DNA kodu i koja je njegova svrha?
+
+DNA kod određuje kako će izgledati **proteini**, molekule koje grade sva živa bića i omogućuju im obavljanje nužnih životnih procesa. Proteini nam trebaju za disanje, probavu, kretanje, obranu od virusa, rast, razvoj... Dakle, možemo reći da su nositelji **građe** i **funkcije** organizma.
+
+Slično kao DNA, proteini su sastavljeni od raznih podjedinica koje možemo označiti nekim slovima: C, L, P, R, W...(@fig-Slika3). Za razliku od DNA, proteini nemaju samo četiri različite podjedinice, nego njih 20. Proteinske sekvence također možemo poravnavati i koristiti za izradu filogenetskih stabla.
+
+![Shematski prikaz proteina. Ovaj protein ima samo jedan lanac sastavljen od 124 podjedinice. Podjedinice možemo zamisliti kao perlice, a proteine kao narukvice (koje nisu nužno zakopčane). Baš kao i narukvice, proteini se mogu „zapetljati" i poprimiti različite oblike -- klupko, cijev, slovo Y itd. Preuzeto od [@berg2015].](01_uvod/DiN_protein.jpg){#fig-Slika3}
